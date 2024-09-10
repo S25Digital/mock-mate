@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Mock Mate API
+  version: 1.0.0
+paths:
+  /Consent:
+    post:
+      summary: Create a consent
+      responses:
+        '200':
+          description: Consent created
+          content:
+            application/json:
+              example:
+                ver: '2.0.0'
+                txnid: '123456789'
+                timestamp: '2023-06-26T11:39:57.153Z'
+                ConsentHandle: '654024c8-29c8-11e8-8868-0289437bf331'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                code: 400
+                msg: 'Bad Request'
