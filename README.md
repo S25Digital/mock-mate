@@ -17,7 +17,7 @@ To install **Mock Mate**, first clone the repository or add it as a dependency i
 ### Using npm
 
 ```bash
-npm install @s25digital/mock-mate
+npm install mock-mate
 ```
 
 ## Usage
@@ -56,36 +56,26 @@ paths:
                 msg: 'Bad Request'
 ```
 
-### 2. Initialize Mock Mate
+### 2. Initialize and Start Mock Mate
 
-In your project, import **Mock Mate**, provide your OpenAPI spec file, and start the server.
+In your project, you can use the `getMockMate` function to load the OpenAPI spec file and initialize the mock server.
 
 ```typescript
-import { MockMate } from '@s25digital/mock-mate';
-import { setupMockUpdateRoute } from '@s25digital/mock-mate/config';
+import { getMockMate } from 'mock-mate';
 
-// Load your OpenAPI spec file
-const apiSpec = /* Load your OpenAPI spec here (YAML or JSON) */;
+// Path to your OpenAPI spec file
+const filePath = './path-to-your-openapi-spec.yaml';
 
-// Initialize Mock Mate
-const mockMate = new MockMate(apiSpec);
-
-// Optionally set up dynamic route updates
-setupMockUpdateRoute(mockMate);
+// Initialize the Mock Mate instance
+const mockMate = getMockMate(filePath);
 
 // Start the mock server
 mockMate.start();
 ```
 
-### 3. Run Mock Mate
+This will start the mock server with the API paths and endpoints defined in the OpenAPI spec.
 
-To run the mock server, simply execute your code. Mock Mate will automatically generate the API routes and responses based on your OpenAPI spec.
-
-```bash
-node dist/index.js
-```
-
-### 4. Dynamic Mock Updates
+### 3. Dynamic Mock Updates
 
 Mock Mate provides a `/mock/update` endpoint that allows you to dynamically modify the default responses during runtime.
 
@@ -105,17 +95,34 @@ curl -X POST http://localhost:3000/mock/update -H "Content-Type: application/jso
 
 This will update the response for the `POST /Consent` endpoint to return a `409 Conflict` status.
 
-## Docker Support
+## Loading YAML and JSON OpenAPI Specs
+
+The updated `index.ts` provides a function to automatically load the API spec from either a YAML or JSON file, based on its extension.
+
+- **YAML Spec**: If the file has a `.yaml` or `.yml` extension, it will be parsed as YAML.
+- **JSON Spec**: If the file has a `.json` extension, it will be parsed as JSON.
+
+```typescript
+import { getMockMate } from 'mock-mate';
+
+// Load the API spec and initialize Mock Mate
+const mockMate = getMockMate('./path-to-your-openapi-spec.yaml');
+
+// Start the mock server
+mockMate.start();
+```
+
+### 4. Docker Support
 
 Mock Mate also includes Docker support for easy deployment in testing environments. You can build the Docker image and run the mock server as a container.
 
-### 1. Build the Docker Image
+#### 1. Build the Docker Image
 
 ```bash
 docker build -t mock-mate:latest .
 ```
 
-### 2. Run the Docker Container
+#### 2. Run the Docker Container
 
 ```bash
 docker run -d -p 3000:3000 mock-mate:latest
