@@ -1,12 +1,13 @@
 # Mock Mate
 
-**Mock Mate** is a powerful and flexible API mocking tool that generates API mocks from OpenAPI specifications (supports both YAML and JSON formats). It allows developers to easily simulate API endpoints for testing and development purposes. With built-in customization options, users can update mock responses dynamically without altering the mock setup.
+**Mock Mate** is a powerful and flexible API mocking tool that generates API mocks from OpenAPI specifications (supports both YAML and JSON formats). It allows developers to easily simulate API endpoints for testing and development purposes. With built-in customization options, users can update mock responses dynamically based on request properties such as the request body.
 
 ## Features
 
 - **Automatic API Mock Generation**: Automatically generate API mocks from OpenAPI specs (YAML/JSON).
 - **Supports Multiple Formats**: Works with both YAML and JSON OpenAPI specs.
 - **Dynamic Response Updates**: Customize API responses on the fly via an update endpoint.
+- **Conditional Response Matching**: Define rules to send specific responses based on request body values.
 - **Flexible and Extensible**: Easily mock any endpoint and customize default responses for your tests.
 - **Ideal for Development and Testing**: Simulate real API behavior in local environments or CI pipelines.
 
@@ -61,7 +62,7 @@ paths:
 In your project, you can use the `getMockMate` function to load the OpenAPI spec file and initialize the mock server.
 
 ```typescript
-import { getMockMate } from 'mock-mate';
+import { getMockMate } from ' @s25digital/mock-mate';
 
 // Path to your OpenAPI spec file
 const filePath = './path-to-your-openapi-spec.yaml';
@@ -75,11 +76,27 @@ mockMate.start();
 
 This will start the mock server with the API paths and endpoints defined in the OpenAPI spec.
 
-### 3. Dynamic Mock Updates
+### 3. Dynamic Response Matching
 
-Mock Mate provides a `/mock/update` endpoint that allows you to dynamically modify the default responses during runtime.
+You can update mock responses dynamically, including the ability to define **conditions** based on the request body. When a request matches the defined conditions, the corresponding response will be returned.
 
-To update a mock response for a specific route:
+For example, to return a `409 Conflict` when the `txnid` field in the request body equals `"conflict-id"`:
+
+```typescript
+mockMate.updateMockConfig(
+  '/Consent',
+  'post',
+  409,
+  { code: 409, msg: 'Conflict: Consent already exists' },
+  [{ field: 'txnid', value: 'conflict-id' }]
+);
+```
+
+In this case, when a `POST /Consent` request has `{ "txnid": "conflict-id" }` in the request body, a `409 Conflict` response will be sent.
+
+### 4. Example cURL for Updating Mock Responses
+
+You can dynamically update mock responses by sending a request to `/mock/update`. Here’s an example:
 
 ```bash
 curl -X POST http://localhost:3000/mock/update -H "Content-Type: application/json" -d '{
@@ -89,30 +106,19 @@ curl -X POST http://localhost:3000/mock/update -H "Content-Type: application/jso
   "responseBody": {
     "code": 409,
     "msg": "Conflict: Consent already exists"
-  }
+  },
+  "conditions": [
+    {
+      "field": "txnid",
+      "value": "conflict-id"
+    }
+  ]
 }'
 ```
 
-This will update the response for the `POST /Consent` endpoint to return a `409 Conflict` status.
+This will ensure that a `POST /Consent` request with `"txnid": "conflict-id"` in the request body will return a `409 Conflict` response.
 
-## Loading YAML and JSON OpenAPI Specs
-
-The updated `index.ts` provides a function to automatically load the API spec from either a YAML or JSON file, based on its extension.
-
-- **YAML Spec**: If the file has a `.yaml` or `.yml` extension, it will be parsed as YAML.
-- **JSON Spec**: If the file has a `.json` extension, it will be parsed as JSON.
-
-```typescript
-import { getMockMate } from 'mock-mate';
-
-// Load the API spec and initialize Mock Mate
-const mockMate = getMockMate('./path-to-your-openapi-spec.yaml');
-
-// Start the mock server
-mockMate.start();
-```
-
-### 4. Docker Support
+### 5. Docker Support
 
 Mock Mate also includes Docker support for easy deployment in testing environments. You can build the Docker image and run the mock server as a container.
 

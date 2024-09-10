@@ -6,5 +6,13 @@ const filePath = "../example/api.yml";
 // Initialize the Mock Mate instance
 const mockMate = getMockMate(filePath);
 
+mockMate.updateMockConfig(
+  '/Consent',
+  'post',
+  409,
+  { code: 409, msg: 'Conflict: Consent already exists' },
+  [{ field: 'txnid', value: 'conflict-id' }]
+);
+
 // Start the mock server
 mockMate.start();
