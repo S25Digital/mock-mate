@@ -1,7 +1,8 @@
+const path = require("path");
 const { getMockMate } =require("../dist");
 
 // Path to your OpenAPI spec file
-const filePath = "../example/api.yml";
+const filePath = path.join(__dirname, "/api.yml");
 
 // Initialize the Mock Mate instance
 const mockMate = getMockMate(filePath);
