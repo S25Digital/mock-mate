@@ -18,7 +18,7 @@ To install **Mock Mate**, first clone the repository or add it as a dependency i
 ### Using npm
 
 ```bash
-npm install @s25digital/mock-mate
+npm install mock-mate
 ```
 
 ## Usage
@@ -62,7 +62,7 @@ paths:
 In your project, you can use the `getMockMate` function to load the OpenAPI spec file and initialize the mock server.
 
 ```typescript
-import { getMockMate } from ' @s25digital/mock-mate';
+import { getMockMate } from 'mock-mate';
 
 // Path to your OpenAPI spec file
 const filePath = './path-to-your-openapi-spec.yaml';
@@ -143,3 +143,7 @@ Contributions are welcome! Please open an issue or submit a pull request if you'
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## About Us
+
+This tool is developed and maintained by **[S25Digital](https://s25.digital)**.
