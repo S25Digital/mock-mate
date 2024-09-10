@@ -26,9 +26,7 @@ function loadApiSpec(filePath: string) {
   }
 }
 
-export function getMockMate(filePath: string): MockMate {
-  // Path to your API spec (can be YAML or JSON)
-  const apiSpecPath = path.join(__dirname, filePath);
+export function getMockMate(apiSpecPath: string): MockMate {
 
   // Load the API spec
   const apiSpec = loadApiSpec(apiSpecPath);
