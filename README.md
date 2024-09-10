@@ -17,7 +17,7 @@ To install **Mock Mate**, first clone the repository or add it as a dependency i
 ### Using npm
 
 ```bash
-npm install mock-mate
+npm install @s25digital/mock-mate
 ```
 
 ## Usage
