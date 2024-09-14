@@ -147,3 +147,17 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## About Us
 
 This tool is developed and maintained by **[S25Digital](https://s25.digital)**.
+
+## Related Repository: 
+
+- **spec-mate**
+
+For robust API testing and validation, check out **[spec-mate](https://github.com/S25Digital/spec-mate)**, developed by **S25Digital**. **spec-mate** is designed to simplify API testing with comprehensive assertion capabilities, allowing developers to validate status codes, headers, cookies, JSON bodies, and much more.
+
+With **spec-mate**, you can:
+- Validate various aspects of API responses, including JSON paths, headers, and cookies.
+- Write custom assertions to extend functionality for advanced API testing.
+- Use pre- and post-request hooks for enhanced control and custom logic.
+- Integrate with **mock-mate** to easily mock APIs while running tests with **spec-mate**.
+
+Combine **spec-mate** with **mock-mate** for a complete, end-to-end solution for mocking and testing APIs, making your testing workflows faster and more efficient.
